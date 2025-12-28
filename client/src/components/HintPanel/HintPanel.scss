@@ -1,0 +1,70 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.hint-panel {
+  background-color: rgba($color-secondary, 0.1);
+  border-top: 1px solid $color-secondary;
+  animation: slideUp 0.2s ease-out;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &__header {
+    @include flex-between;
+    padding: $spacing-2 $spacing-4;
+    background-color: rgba($color-secondary, 0.2);
+  }
+
+  &__icon {
+    margin-right: $spacing-2;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-secondary;
+    flex: 1;
+  }
+
+  &__close {
+    @include flex-center;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    border-radius: $radius-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: $color-text-primary;
+    }
+  }
+
+  &__content {
+    padding: $spacing-3 $spacing-4;
+    
+    p {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+      line-height: $line-height-relaxed;
+    }
+  }
+
+  &__loading {
+    @include flex-center;
+    gap: $spacing-2;
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+  }
+}

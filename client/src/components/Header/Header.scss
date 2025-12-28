@@ -1,0 +1,99 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.header {
+  background-color: $color-bg-medium;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: $z-dropdown;
+
+  &__container {
+    @include flex-between;
+    padding: $spacing-3 $spacing-4;
+    max-width: 1600px;
+    margin: 0 auto;
+
+    @include tablet {
+      padding: $spacing-4 $spacing-6;
+    }
+
+    @include desktop {
+      padding: $spacing-4 $spacing-8;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    text-decoration: none;
+    color: $color-text-primary;
+
+    @include tablet {
+      gap: $spacing-3;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__logo-icon {
+    width: 32px;
+    height: 32px;
+
+    @include tablet {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__logo-text {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    display: none;
+
+    @include tablet {
+      display: block;
+      font-size: $font-size-lg;
+    }
+
+    @include desktop {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+
+    @include tablet {
+      gap: $spacing-3;
+    }
+  }
+
+  &__username {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    display: none;
+
+    @include tablet {
+      display: block;
+    }
+  }
+
+  &__link {
+    @include button-secondary;
+    font-size: $font-size-sm;
+    padding: $spacing-2 $spacing-3;
+  }
+}

@@ -1,0 +1,225 @@
+// ===========================
+// SCSS Mixins
+// Mobile-first responsive utilities
+// ===========================
+
+// Media query mixins (mobile-first approach)
+@mixin mobile {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button mixin
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-md;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @include tablet {
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-base;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $color-primary;
+  color: $color-text-primary;
+  
+  &:hover:not(:disabled) {
+    background-color: $color-primary-dark;
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: transparent;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  
+  &:hover:not(:disabled) {
+    background-color: rgba($color-primary, 0.1);
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background-color: transparent;
+  color: $color-text-secondary;
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $color-text-primary;
+  }
+}
+
+// Card mixin
+@mixin card {
+  background-color: $color-bg-card;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  overflow: hidden;
+}
+
+// Input mixin
+@mixin input-base {
+  width: 100%;
+  padding: $spacing-3 $spacing-4;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  background-color: $color-bg-medium;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  transition: border-color $transition-base;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+  
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $color-bg-medium;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $color-border-light;
+    border-radius: $radius-full;
+    
+    &:hover {
+      background: $color-text-muted;
+    }
+  }
+}
+
+// Text truncation
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Line clamp
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Touch-friendly sizing
+@mixin touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+// Panel styling (for split views)
+@mixin panel {
+  @include card;
+  @include flex-column;
+  height: 100%;
+  
+  &__header {
+    @include flex-between;
+    padding: $spacing-3 $spacing-4;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid $color-border;
+    
+    @include tablet {
+      padding: $spacing-4;
+    }
+  }
+  
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    
+    @include tablet {
+      font-size: $font-size-base;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    overflow: auto;
+    @include custom-scrollbar;
+  }
+}
+
+// Badge/tag styling
+@mixin badge($bg-color, $text-color: $color-text-primary) {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-2;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $text-color;
+  background-color: $bg-color;
+  border-radius: $radius-full;
+  
+  @include tablet {
+    padding: $spacing-1 $spacing-3;
+  }
+}

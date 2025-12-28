@@ -1,0 +1,205 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.assignment-attempt {
+  height: calc(100vh - 80px);
+  @include flex-column;
+  
+  &__loading,
+  &__error {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-4;
+    height: 100%;
+    color: $color-text-secondary;
+  }
+
+  // Mobile Tabs
+  &__tabs {
+    display: flex;
+    background-color: $color-bg-medium;
+    border-radius: $radius-md;
+    padding: $spacing-1;
+    margin-bottom: $spacing-4;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    @include tablet {
+      display: none;
+    }
+  }
+
+  &__tab {
+    @include button-ghost;
+    flex: 1;
+    min-width: max-content;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+    
+    &.active {
+      background-color: $color-primary;
+      color: $color-text-primary;
+    }
+  }
+
+  // Layout
+  &__layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    min-height: 0;
+
+    @include tablet {
+      flex-direction: row;
+    }
+  }
+
+  &__left,
+  &__right {
+    display: none;
+    flex-direction: column;
+    gap: $spacing-4;
+    min-height: 0;
+
+    &.active {
+      display: flex;
+      flex: 1;
+    }
+
+    @include tablet {
+      display: flex;
+      flex: 1;
+    }
+  }
+
+  // Panels
+  &__panel {
+    @include panel;
+    display: none;
+    flex: 1;
+    min-height: 200px;
+
+    &.active {
+      display: flex;
+    }
+
+    @include tablet {
+      display: flex;
+      min-height: 0;
+    }
+  }
+}
+
+// Panel Base Styles
+.panel {
+  &__header {
+    @include flex-between;
+    padding: $spacing-3 $spacing-4;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid $color-border;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+
+    @include tablet {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow: auto;
+    padding: $spacing-4;
+    @include custom-scrollbar;
+  }
+}
+
+// Question Panel
+.question-panel {
+  &__badges {
+    display: flex;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-3;
+
+    @include tablet {
+      font-size: $font-size-xl;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    line-height: $line-height-relaxed;
+    margin-bottom: $spacing-6;
+  }
+
+  &__expected {
+    background-color: rgba($color-primary, 0.1);
+    border: 1px solid rgba($color-primary, 0.3);
+    border-radius: $radius-md;
+    padding: $spacing-4;
+
+    h4 {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: $color-primary;
+      margin-bottom: $spacing-2;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+// Schema Panel
+.schema-panel {
+  @include tablet {
+    max-height: 50%;
+  }
+}
+
+// Editor Panel
+.editor-panel {
+  &__actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  &__editor {
+    padding: 0 !important;
+    flex: 1;
+    min-height: 200px;
+
+    @include tablet {
+      min-height: 250px;
+    }
+  }
+}
+
+// Results Panel
+.results-panel {
+  &__meta {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+
+    @include tablet {
+      font-size: $font-size-sm;
+    }
+  }
+}

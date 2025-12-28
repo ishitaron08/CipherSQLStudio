@@ -1,0 +1,140 @@
+// ===========================
+// Main SCSS Entry Point
+// ===========================
+
+// Import order matters!
+@import 'variables';
+@import 'mixins';
+@import 'base';
+
+// App Layout
+.app {
+  @include flex-column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: $spacing-4;
+  
+  @include tablet {
+    padding: $spacing-6;
+  }
+  
+  @include desktop {
+    padding: $spacing-8;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+// Common button styles
+.btn {
+  &--primary {
+    @include button-primary;
+  }
+  
+  &--secondary {
+    @include button-secondary;
+  }
+  
+  &--ghost {
+    @include button-ghost;
+  }
+  
+  &--success {
+    @include button-base;
+    background-color: $color-success;
+    color: $color-text-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($color-success, 10%);
+    }
+  }
+  
+  &--danger {
+    @include button-base;
+    background-color: $color-error;
+    color: $color-text-primary;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($color-error, 10%);
+    }
+  }
+  
+  &--small {
+    padding: $spacing-1 $spacing-2;
+    font-size: $font-size-xs;
+  }
+  
+  &--large {
+    padding: $spacing-4 $spacing-6;
+    font-size: $font-size-lg;
+  }
+}
+
+// Common input styles
+.input {
+  @include input-base;
+}
+
+// Loading spinner
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Difficulty badges
+.badge {
+  &--easy {
+    @include badge($color-success);
+  }
+  
+  &--medium {
+    @include badge($color-warning);
+  }
+  
+  &--hard {
+    @include badge($color-error);
+  }
+  
+  &--category {
+    @include badge($color-secondary);
+  }
+}
+
+// Message states
+.message {
+  padding: $spacing-3 $spacing-4;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  
+  &--error {
+    background-color: rgba($color-error, 0.1);
+    border: 1px solid $color-error;
+    color: lighten($color-error, 20%);
+  }
+  
+  &--success {
+    background-color: rgba($color-success, 0.1);
+    border: 1px solid $color-success;
+    color: lighten($color-success, 20%);
+  }
+  
+  &--info {
+    background-color: rgba($color-primary, 0.1);
+    border: 1px solid $color-primary;
+    color: $color-primary-light;
+  }
+}

@@ -1,0 +1,151 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.schema-viewer {
+  &__empty {
+    color: $color-text-muted;
+    text-align: center;
+    padding: $spacing-6;
+  }
+}
+
+.schema-table {
+  background-color: $color-bg-medium;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-3;
+  overflow: hidden;
+
+  &__header {
+    @include flex-between;
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    background: none;
+    border: none;
+    color: $color-text-primary;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background-color $transition-fast;
+    @include touch-target;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  &__icon {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin-right: $spacing-2;
+  }
+
+  &__name {
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-mono;
+    flex: 1;
+  }
+
+  &__count {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__content {
+    padding: $spacing-4;
+    border-top: 1px solid $color-border;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &__subtitle {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-2;
+  }
+
+  &__columns {
+    margin-bottom: $spacing-4;
+  }
+
+  &__sample {
+    margin-top: $spacing-4;
+  }
+
+  &__sample-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    @include custom-scrollbar;
+  }
+}
+
+// Schema Columns Table
+.schema-columns {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+
+  th, td {
+    padding: $spacing-2 $spacing-3;
+    text-align: left;
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    font-weight: $font-weight-medium;
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+  }
+
+  td {
+    color: $color-text-secondary;
+  }
+
+  &__name {
+    font-family: $font-family-mono;
+    color: $color-primary !important;
+  }
+
+  &__type {
+    font-family: $font-family-mono;
+    font-size: $font-size-xs;
+  }
+
+  &__constraints {
+    font-size: $font-size-xs;
+    color: $color-warning !important;
+  }
+}
+
+// Sample Data Table
+.sample-data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+
+  th, td {
+    padding: $spacing-2 $spacing-3;
+    text-align: left;
+    border: 1px solid $color-border;
+  }
+
+  th {
+    background-color: $color-bg-light;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+  }
+
+  td {
+    color: $color-text-secondary;
+    font-family: $font-family-mono;
+  }
+
+  .null-value {
+    color: $color-text-muted;
+    font-style: italic;
+  }
+}

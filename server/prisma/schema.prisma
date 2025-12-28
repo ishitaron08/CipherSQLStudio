@@ -1,0 +1,102 @@
+// Prisma schema for CipherSQLStudio
+// Using PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for optional authentication
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  password      String
+  name          String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  queryAttempts QueryAttempt[]
+
+  @@map("users")
+}
+
+// SQL Assignment model
+model Assignment {
+  id                        String         @id @default(cuid())
+  title                     String
+  description               String
+  difficulty                Difficulty     @default(easy)
+  category                  String
+  tables                    Json           // Array of table definitions
+  sampleData                Json           // Sample data for each table
+  expectedResultDescription String?
+  hintContext               String?        // Hidden context for AI hints
+  order                     Int            @default(0)
+  isActive                  Boolean        @default(true)
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  queryAttempts             QueryAttempt[]
+
+  @@map("assignments")
+}
+
+// Query attempt tracking
+model QueryAttempt {
+  id              String      @id @default(cuid())
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  assignmentId    String
+  assignment      Assignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  query           String
+  success         Boolean     @default(false)
+  errorMessage    String?
+  executionTimeMs Int?
+  rowsReturned    Int?
+  createdAt       DateTime    @default(now())
+
+  @@index([userId])
+  @@index([assignmentId])
+  @@map("query_attempts")
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+// Practice tables for SQL exercises - these are actual tables users query against
+model Employee {
+  id         Int       @id @default(autoincrement())
+  firstName  String    @map("first_name")
+  lastName   String    @map("last_name")
+  email      String    @unique
+  department String?
+  salary     Decimal?  @db.Decimal(10, 2)
+  hireDate   DateTime? @map("hire_date")
+
+  @@map("employees")
+}
+
+model Customer {
+  id     Int      @id @default(autoincrement())
+  name   String
+  email  String?
+  orders Order[]
+
+  @@map("customers")
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  customerId Int      @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id])
+  product    String
+  amount     Decimal  @db.Decimal(10, 2)
+  orderDate  DateTime @default(now()) @map("order_date")
+
+  @@map("orders")
+}
