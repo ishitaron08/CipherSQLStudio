@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "CipherSQLStudio Backend API",
   "main": "src/app.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
-    "seed": "node src/scripts/seed.js"
+    "seed": "node src/scripts/seed.js",
+    "build": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^0.2.16",
