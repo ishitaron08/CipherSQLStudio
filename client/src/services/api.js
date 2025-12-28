@@ -83,6 +83,11 @@ export const authService = {
   getMe: async () => {
     const response = await api.get('/auth/me')
     return response.data
+  },
+
+  changePassword: async (currentPassword, newPassword) => {
+    const response = await api.put('/auth/password', { currentPassword, newPassword })
+    return response.data
   }
 }
 

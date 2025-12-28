@@ -98,6 +98,24 @@
       @include button-secondary;
     }
   }
+
+  &__settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-2;
+    background: transparent;
+    border: none;
+    border-radius: $radius-md;
+    color: $text-tertiary;
+    cursor: pointer;
+    transition: $transition-hover;
+    
+    &:hover {
+      background: $color-gray-100;
+      color: $text-primary;
+    }
+  }
   
   &__logout-btn {
     @include button-ghost;
@@ -109,4 +127,5 @@
       background: $color-error-soft;
     }
   }
+}
 }

@@ -1,0 +1,173 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.settings-modal {
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: $space-4;
+  }
+
+  position: relative;
+  background: $surface-primary;
+  border: 1px solid $border-primary;
+  border-radius: $radius-lg;
+  padding: $space-8;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  &__close {
+    position: absolute;
+    top: $space-4;
+    right: $space-4;
+    background: transparent;
+    border: none;
+    color: $text-tertiary;
+    cursor: pointer;
+    padding: $space-2;
+    border-radius: $radius-sm;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $surface-secondary;
+      color: $text-primary;
+    }
+  }
+
+  &__title {
+    font-size: $text-xl;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $space-6;
+  }
+
+  &__section {
+    margin-bottom: $space-6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $space-4;
+    padding-bottom: $space-2;
+    border-bottom: 1px solid $border-primary;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  &__info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: $text-sm;
+    color: $text-tertiary;
+  }
+
+  &__value {
+    font-size: $text-sm;
+    color: $text-primary;
+    font-family: $font-mono;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+
+    label {
+      font-size: $text-sm;
+      font-weight: 500;
+      color: $text-secondary;
+    }
+
+    input {
+      background: $surface-secondary;
+      border: 1px solid $border-primary;
+      border-radius: $radius-md;
+      padding: $space-3 $space-4;
+      font-size: $text-base;
+      color: $text-primary;
+      transition: all $transition-fast;
+
+      &:focus {
+        outline: none;
+        border-color: $accent-primary;
+        box-shadow: 0 0 0 3px rgba($accent-primary, 0.1);
+      }
+
+      &::placeholder {
+        color: $text-tertiary;
+      }
+    }
+  }
+
+  &__submit {
+    background: $text-primary;
+    color: $bg-primary;
+    border: none;
+    border-radius: $radius-md;
+    padding: $space-3 $space-6;
+    font-size: $text-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-fast;
+    margin-top: $space-2;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.message {
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  margin-bottom: $space-4;
+
+  &--error {
+    background: rgba($status-error, 0.1);
+    border: 1px solid rgba($status-error, 0.3);
+    color: $status-error;
+  }
+
+  &--success {
+    background: rgba($status-success, 0.1);
+    border: 1px solid rgba($status-success, 0.3);
+    color: $status-success;
+  }
+}
