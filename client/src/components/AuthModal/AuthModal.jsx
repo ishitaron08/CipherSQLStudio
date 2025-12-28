@@ -41,7 +41,8 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
         setError(result.error || 'An error occurred')
       }
     } catch (err) {
-      setError('Failed to connect to server')
+      console.error('Auth error:', err)
+      setError(err.response?.data?.error || err.message || 'Failed to connect to server')
     } finally {
       setLoading(false)
     }
