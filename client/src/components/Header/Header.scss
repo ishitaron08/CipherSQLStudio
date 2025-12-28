@@ -2,98 +2,111 @@
 @import '../../styles/mixins';
 
 .header {
-  background-color: $color-bg-medium;
-  border-bottom: 1px solid $color-border;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: $z-dropdown;
-
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background: $surface-glass-strong;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid $border-subtle;
+  z-index: $z-fixed;
+  animation: slideDown 400ms ease both;
+  
   &__container {
     @include flex-between;
-    padding: $spacing-3 $spacing-4;
-    max-width: 1600px;
+    max-width: $content-max-width;
+    height: 100%;
     margin: 0 auto;
-
+    padding: 0 $spacing-4;
+    
     @include tablet {
-      padding: $spacing-4 $spacing-6;
+      padding: 0 $spacing-6;
     }
-
+    
     @include desktop {
-      padding: $spacing-4 $spacing-8;
+      padding: 0 $spacing-8;
     }
   }
-
+  
   &__logo {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
+    gap: $spacing-3;
     text-decoration: none;
-    color: $color-text-primary;
-
-    @include tablet {
-      gap: $spacing-3;
-    }
-
+    transition: $transition-hover;
+    
     &:hover {
-      text-decoration: none;
+      opacity: 0.8;
     }
   }
-
+  
   &__logo-icon {
-    width: 32px;
-    height: 32px;
-
+    width: 36px;
+    height: 36px;
+    
     @include tablet {
       width: 40px;
       height: 40px;
     }
   }
-
+  
   &__logo-text {
-    font-size: $font-size-base;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
-    color: $color-text-primary;
-    display: none;
-
+    color: $text-primary;
+    letter-spacing: $letter-spacing-tight;
+    
     @include tablet {
-      display: block;
-      font-size: $font-size-lg;
-    }
-
-    @include desktop {
       font-size: $font-size-xl;
     }
   }
-
+  
   &__nav {
     display: flex;
     align-items: center;
     gap: $spacing-3;
   }
-
+  
   &__user {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
-
-    @include tablet {
-      gap: $spacing-3;
-    }
+    gap: $spacing-4;
   }
-
+  
   &__username {
-    font-size: $font-size-sm;
-    color: $color-text-secondary;
     display: none;
-
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    padding: $spacing-2 $spacing-3;
+    background: $color-gray-100;
+    border-radius: $radius-md;
+    
     @include tablet {
       display: block;
     }
   }
-
-  &__link {
+  
+  &__login-btn {
     @include button-secondary;
-    font-size: $font-size-sm;
-    padding: $spacing-2 $spacing-3;
+    @include button-small;
+    
+    @include tablet {
+      @include button-base;
+      @include button-secondary;
+    }
+  }
+  
+  &__logout-btn {
+    @include button-ghost;
+    @include button-small;
+    color: $text-tertiary;
+    
+    &:hover {
+      color: $color-error;
+      background: $color-error-soft;
+    }
   }
 }

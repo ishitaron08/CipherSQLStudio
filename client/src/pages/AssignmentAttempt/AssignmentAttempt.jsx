@@ -103,7 +103,7 @@ function AssignmentAttempt() {
     return (
       <div className="assignment-attempt__loading">
         <div className="spinner"></div>
-        <span>Loading assignment...</span>
+        <span>Loading challenge...</span>
       </div>
     )
   }
@@ -112,7 +112,7 @@ function AssignmentAttempt() {
     return (
       <div className="assignment-attempt__error">
         <div className="message message--error">{error || 'Assignment not found'}</div>
-        <Link to="/" className="btn--primary">Back to Assignments</Link>
+        <Link to="/" className="btn--primary">Back to Challenges</Link>
       </div>
     )
   }
@@ -154,8 +154,13 @@ function AssignmentAttempt() {
           {/* Question Panel */}
           <div className={`assignment-attempt__panel question-panel ${activePanel === 'question' ? 'active' : ''}`}>
             <div className="panel__header">
-              <h2 className="panel__title">Question</h2>
-              <Link to="/" className="btn--ghost btn--small">← Back</Link>
+              <h2 className="panel__title">Challenge</h2>
+              <Link to="/" className="back-btn">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Back
+              </Link>
             </div>
             <div className="panel__content">
               <div className="question-panel__badges">
@@ -167,17 +172,19 @@ function AssignmentAttempt() {
               <h3 className="question-panel__title">{assignment.title}</h3>
               <p className="question-panel__description">{assignment.description}</p>
               
-              <div className="question-panel__expected">
-                <h4>Expected Output</h4>
-                <p>{assignment.expectedResultDescription}</p>
-              </div>
+              {assignment.expectedResultDescription && (
+                <div className="question-panel__expected">
+                  <h4>Expected Output</h4>
+                  <p>{assignment.expectedResultDescription}</p>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Schema Panel */}
           <div className={`assignment-attempt__panel schema-panel ${activePanel === 'schema' ? 'active' : ''}`}>
             <div className="panel__header">
-              <h2 className="panel__title">Tables & Data</h2>
+              <h2 className="panel__title">Tables & Schema</h2>
             </div>
             <div className="panel__content">
               <SchemaViewer 
@@ -196,22 +203,28 @@ function AssignmentAttempt() {
               <h2 className="panel__title">SQL Editor</h2>
               <div className="editor-panel__actions">
                 <button 
-                  className="btn--secondary btn--small"
+                  className="editor-panel__hint-btn"
                   onClick={getHint}
                   disabled={hintLoading}
                 >
-                  {hintLoading ? <span className="spinner"></span> : '💡'} Hint
+                  {hintLoading ? <span className="spinner spinner--sm"></span> : '💡'} 
+                  Hint
                 </button>
                 <button 
-                  className="btn--primary"
+                  className="editor-panel__run-btn"
                   onClick={executeQuery}
                   disabled={executing}
                 >
-                  {executing ? <span className="spinner"></span> : '▶'} Run
+                  {executing ? <span className="spinner spinner--sm"></span> : (
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M3 2.5L11 7L3 11.5V2.5Z" fill="currentColor"/>
+                    </svg>
+                  )}
+                  Run
                 </button>
               </div>
             </div>
-            <div className="panel__content editor-panel__editor">
+            <div className="editor-panel__editor">
               <Editor
                 height="100%"
                 defaultLanguage="sql"
@@ -221,12 +234,16 @@ function AssignmentAttempt() {
                 options={{
                   minimap: { enabled: false },
                   fontSize: 14,
+                  fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
                   lineNumbers: 'on',
                   scrollBeyondLastLine: false,
                   wordWrap: 'on',
                   automaticLayout: true,
                   tabSize: 2,
-                  padding: { top: 12 }
+                  padding: { top: 16, bottom: 16 },
+                  renderLineHighlight: 'line',
+                  cursorBlinking: 'smooth',
+                  smoothScrolling: true,
                 }}
               />
             </div>

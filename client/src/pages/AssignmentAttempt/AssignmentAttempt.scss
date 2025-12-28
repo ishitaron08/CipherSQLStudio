@@ -2,121 +2,168 @@
 @import '../../styles/mixins';
 
 .assignment-attempt {
-  height: calc(100vh - 80px);
-  @include flex-column;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - $header-height - $spacing-8);
+  min-height: 600px;
+  animation: fadeIn 300ms ease both;
   
+  @include tablet {
+    height: calc(100vh - $header-height - $spacing-12);
+  }
+  
+  // Loading & Error states
   &__loading,
   &__error {
+    @include flex-column;
     @include flex-center;
-    flex-direction: column;
-    gap: $spacing-4;
     height: 100%;
-    color: $color-text-secondary;
+    gap: $spacing-4;
+    text-align: center;
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border-width: 3px;
+      color: $color-accent;
+    }
   }
-
-  // Mobile Tabs
+  
+  &__error {
+    .message {
+      margin-bottom: $spacing-4;
+    }
+  }
+  
+  // Mobile tabs
   &__tabs {
     display: flex;
-    background-color: $color-bg-medium;
-    border-radius: $radius-md;
-    padding: $spacing-1;
+    gap: $spacing-1;
+    padding: $spacing-2;
+    background: $surface-primary;
+    border-radius: $radius-lg;
     margin-bottom: $spacing-4;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    border: 1px solid $border-subtle;
     
-    @include tablet {
+    @include desktop {
       display: none;
     }
   }
-
+  
   &__tab {
-    @include button-ghost;
+    @include button-reset;
     flex: 1;
-    min-width: max-content;
-    padding: $spacing-2 $spacing-3;
+    padding: $spacing-3 $spacing-2;
     font-size: $font-size-sm;
-    border-radius: $radius-sm;
-    white-space: nowrap;
+    font-weight: $font-weight-medium;
+    color: $text-tertiary;
+    background: transparent;
+    border-radius: $radius-md;
+    transition: $transition-hover;
+    
+    &:hover {
+      color: $text-secondary;
+    }
     
     &.active {
-      background-color: $color-primary;
-      color: $color-text-primary;
+      color: $text-primary;
+      background: $color-gray-100;
     }
   }
-
-  // Layout
+  
+  // Main layout
   &__layout {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: $spacing-4;
-    min-height: 0;
-
-    @include tablet {
+    min-height: 0; // Critical for flex overflow
+    
+    @include desktop {
       flex-direction: row;
+      gap: $spacing-5;
     }
   }
-
-  &__left,
+  
+  // Left column (Question & Schema)
+  &__left {
+    display: none;
+    flex-direction: column;
+    gap: $spacing-4;
+    min-width: 0;
+    
+    &.active {
+      display: flex;
+      flex: 1;
+    }
+    
+    @include desktop {
+      display: flex;
+      flex: 0 0 380px;
+      max-width: 420px;
+    }
+  }
+  
+  // Right column (Editor & Results)
   &__right {
     display: none;
     flex-direction: column;
     gap: $spacing-4;
+    min-width: 0;
     min-height: 0;
-
+    
     &.active {
       display: flex;
       flex: 1;
     }
-
-    @include tablet {
+    
+    @include desktop {
       display: flex;
       flex: 1;
     }
   }
-
-  // Panels
+  
+  // Panel base styles
   &__panel {
-    @include panel;
+    @include surface-base;
     display: none;
-    flex: 1;
-    min-height: 200px;
-
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    animation: fadeInUp 300ms ease both;
+    
     &.active {
       display: flex;
+      flex: 1;
     }
-
-    @include tablet {
+    
+    @include desktop {
       display: flex;
-      min-height: 0;
     }
   }
 }
 
-// Panel Base Styles
+// Panel header/content base
 .panel {
   &__header {
     @include flex-between;
-    padding: $spacing-3 $spacing-4;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid $color-border;
     flex-shrink: 0;
+    padding: $spacing-4 $spacing-5;
+    background: $color-gray-50;
+    border-bottom: 1px solid $border-subtle;
   }
-
+  
   &__title {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
-
-    @include tablet {
-      font-size: $font-size-base;
-    }
+    color: $text-secondary;
+    letter-spacing: $letter-spacing-wider;
+    text-transform: uppercase;
   }
-
+  
   &__content {
     flex: 1;
     overflow: auto;
-    padding: $spacing-4;
     @include custom-scrollbar;
   }
 }
@@ -128,78 +175,144 @@
     gap: $spacing-2;
     margin-bottom: $spacing-4;
   }
-
+  
   &__title {
-    font-size: $font-size-lg;
+    font-size: $font-size-xl;
     font-weight: $font-weight-semibold;
-    color: $color-text-primary;
+    color: $text-primary;
     margin-bottom: $spacing-3;
-
-    @include tablet {
-      font-size: $font-size-xl;
-    }
+    line-height: $line-height-snug;
   }
-
+  
   &__description {
     font-size: $font-size-base;
-    color: $color-text-secondary;
+    color: $text-secondary;
     line-height: $line-height-relaxed;
     margin-bottom: $spacing-6;
   }
-
+  
   &__expected {
-    background-color: rgba($color-primary, 0.1);
-    border: 1px solid rgba($color-primary, 0.3);
-    border-radius: $radius-md;
     padding: $spacing-4;
-
+    background: $color-accent-soft;
+    border-radius: $radius-md;
+    border-left: 3px solid $color-accent;
+    
     h4 {
-      font-size: $font-size-sm;
+      font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
-      color: $color-primary;
+      color: $color-accent;
+      letter-spacing: $letter-spacing-wider;
+      text-transform: uppercase;
       margin-bottom: $spacing-2;
     }
-
+    
     p {
       font-size: $font-size-sm;
-      color: $color-text-secondary;
+      color: $text-secondary;
+      line-height: $line-height-relaxed;
     }
+  }
+  
+  .panel__content {
+    padding: $spacing-5;
   }
 }
 
 // Schema Panel
 .schema-panel {
-  @include tablet {
-    max-height: 50%;
+  flex: 1;
+  min-height: 200px;
+  
+  @include desktop {
+    flex: 1;
+    max-height: none;
+  }
+  
+  .panel__content {
+    padding: $spacing-4;
   }
 }
 
 // Editor Panel
 .editor-panel {
+  flex: 1.2;
+  min-height: 280px;
+  position: relative; // For hint panel positioning
+  
+  @include desktop {
+    flex: 1;
+    min-height: 300px;
+  }
+  
   &__actions {
     display: flex;
     gap: $spacing-2;
   }
-
+  
+  &__hint-btn {
+    @include button-ghost;
+    @include button-small;
+    gap: $spacing-1;
+    
+    &:hover {
+      background: $color-warning-soft;
+      color: $color-warning;
+    }
+  }
+  
+  &__run-btn {
+    @include button-primary;
+    @include button-small;
+    background: $color-accent;
+    color: $color-gray-900;
+    
+    &:hover:not(:disabled) {
+      box-shadow: $shadow-glow;
+    }
+  }
+  
   &__editor {
-    padding: 0 !important;
     flex: 1;
-    min-height: 200px;
-
-    @include tablet {
-      min-height: 250px;
+    min-height: 0;
+    border-top: 1px solid $border-subtle;
+    
+    // Monaco editor container
+    > section {
+      height: 100% !important;
     }
   }
 }
 
 // Results Panel
 .results-panel {
+  flex: 0.8;
+  min-height: 200px;
+  
+  @include desktop {
+    flex: 0.7;
+    min-height: 180px;
+  }
+  
   &__meta {
     font-size: $font-size-xs;
-    color: $color-text-muted;
+    color: $text-tertiary;
+    font-family: $font-family-mono;
+  }
+  
+  .panel__content {
+    padding: 0;
+  }
+}
 
-    @include tablet {
-      font-size: $font-size-sm;
-    }
+// Back button
+.back-btn {
+  @include button-ghost;
+  @include button-small;
+  gap: $spacing-1;
+  padding-left: $spacing-2;
+  
+  svg {
+    width: 16px;
+    height: 16px;
   }
 }

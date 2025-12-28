@@ -44,31 +44,31 @@ function AssignmentList() {
 
   return (
     <div className="assignment-list">
-      <div className="assignment-list__header">
-        <h1 className="assignment-list__title">SQL Assignments</h1>
+      <header className="assignment-list__header">
+        <h1 className="assignment-list__title">SQL Challenges</h1>
         <p className="assignment-list__subtitle">
-          Practice SQL queries with interactive exercises
+          Master SQL through hands-on practice with real-world exercises
         </p>
-      </div>
+      </header>
 
       <div className="assignment-list__filters">
         <select 
-          className="input assignment-list__select"
+          className="assignment-list__select"
           value={filter.difficulty}
           onChange={(e) => setFilter(f => ({ ...f, difficulty: e.target.value }))}
         >
-          <option value="">All Difficulties</option>
+          <option value="">All Levels</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
 
         <select
-          className="input assignment-list__select"
+          className="assignment-list__select"
           value={filter.category}
           onChange={(e) => setFilter(f => ({ ...f, category: e.target.value }))}
         >
-          <option value="">All Categories</option>
+          <option value="">All Topics</option>
           <option value="SELECT">SELECT</option>
           <option value="WHERE">WHERE</option>
           <option value="JOIN">JOIN</option>
@@ -81,12 +81,15 @@ function AssignmentList() {
       {loading && (
         <div className="assignment-list__loading">
           <div className="spinner"></div>
-          <span>Loading assignments...</span>
+          <span>Loading challenges...</span>
         </div>
       )}
 
       {error && (
         <div className="message message--error">
+          <svg className="message__icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+          </svg>
           {error}
         </div>
       )}
@@ -94,13 +97,17 @@ function AssignmentList() {
       {!loading && !error && (
         <div className="assignment-list__grid">
           {assignments.length === 0 ? (
-            <p className="assignment-list__empty">No assignments found</p>
+            <div className="assignment-list__empty">
+              <div className="assignment-list__empty-icon">📭</div>
+              <p>No challenges found</p>
+            </div>
           ) : (
-            assignments.map((assignment) => (
+            assignments.map((assignment, index) => (
               <Link 
                 key={assignment.id} 
                 to={`/assignment/${assignment.id}`}
                 className="assignment-card"
+                style={{ animationDelay: `${index * 50 + 300}ms` }}
               >
                 <div className="assignment-card__header">
                   <span className={getDifficultyClass(assignment.difficulty)}>
@@ -115,7 +122,12 @@ function AssignmentList() {
                   {assignment.description}
                 </p>
                 <div className="assignment-card__footer">
-                  <span className="assignment-card__cta">Start →</span>
+                  <span className="assignment-card__cta">
+                    Start challenge
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
                 </div>
               </Link>
             ))

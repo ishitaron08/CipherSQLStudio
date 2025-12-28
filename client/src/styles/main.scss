@@ -1,35 +1,43 @@
 // ===========================
 // Main SCSS Entry Point
+// Clean. Neutral. Reusable.
 // ===========================
 
-// Import order matters!
 @import 'variables';
 @import 'mixins';
 @import 'base';
 
+// -----------------------------
 // App Layout
+// -----------------------------
 .app {
   @include flex-column;
   min-height: 100vh;
+  background: $bg-pattern;
 }
 
 .main-content {
   flex: 1;
   padding: $spacing-4;
+  padding-top: calc($header-height + $spacing-4);
   
   @include tablet {
     padding: $spacing-6;
+    padding-top: calc($header-height + $spacing-6);
   }
   
   @include desktop {
     padding: $spacing-8;
-    max-width: 1600px;
+    padding-top: calc($header-height + $spacing-8);
+    max-width: $content-max-width;
     margin: 0 auto;
     width: 100%;
   }
 }
 
-// Common button styles
+// -----------------------------
+// Button Components
+// -----------------------------
 .btn {
   &--primary {
     @include button-primary;
@@ -43,98 +51,247 @@
     @include button-ghost;
   }
   
-  &--success {
-    @include button-base;
-    background-color: $color-success;
-    color: $color-text-primary;
-    
-    &:hover:not(:disabled) {
-      background-color: darken($color-success, 10%);
-    }
-  }
-  
-  &--danger {
-    @include button-base;
-    background-color: $color-error;
-    color: $color-text-primary;
-    
-    &:hover:not(:disabled) {
-      background-color: darken($color-error, 10%);
-    }
+  &--accent {
+    @include button-accent;
   }
   
   &--small {
-    padding: $spacing-1 $spacing-2;
-    font-size: $font-size-xs;
+    @include button-small;
   }
   
   &--large {
-    padding: $spacing-4 $spacing-6;
-    font-size: $font-size-lg;
+    @include button-large;
+  }
+  
+  &--icon {
+    @include button-ghost;
+    padding: $spacing-2;
+    border-radius: $radius-md;
+    
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 
-// Common input styles
+// -----------------------------
+// Input Components
+// -----------------------------
 .input {
   @include input-base;
 }
 
-// Loading spinner
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid transparent;
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+.select {
+  @include select-base;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// Difficulty badges
+// -----------------------------
+// Badge Components
+// -----------------------------
 .badge {
   &--easy {
-    @include badge($color-success);
+    @include badge($color-easy-bg, $color-easy);
   }
   
   &--medium {
-    @include badge($color-warning);
+    @include badge($color-medium-bg, $color-medium);
   }
   
   &--hard {
-    @include badge($color-error);
+    @include badge($color-hard-bg, $color-hard);
   }
   
   &--category {
-    @include badge($color-secondary);
+    @include badge($color-gray-100, $text-secondary);
+  }
+  
+  &--accent {
+    @include badge($color-accent-soft, $color-accent);
   }
 }
 
-// Message states
+// -----------------------------
+// Message Components
+// -----------------------------
 .message {
-  padding: $spacing-3 $spacing-4;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  padding: $spacing-4;
   border-radius: $radius-md;
   font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
   
   &--error {
-    background-color: rgba($color-error, 0.1);
-    border: 1px solid $color-error;
-    color: lighten($color-error, 20%);
+    background: $color-error-soft;
+    color: $color-error;
+    border: 1px solid rgba($color-error, 0.2);
   }
   
   &--success {
-    background-color: rgba($color-success, 0.1);
-    border: 1px solid $color-success;
-    color: lighten($color-success, 20%);
+    background: $color-success-soft;
+    color: $color-success;
+    border: 1px solid rgba($color-success, 0.2);
+  }
+  
+  &--warning {
+    background: $color-warning-soft;
+    color: $color-warning;
+    border: 1px solid rgba($color-warning, 0.2);
   }
   
   &--info {
-    background-color: rgba($color-primary, 0.1);
-    border: 1px solid $color-primary;
-    color: $color-primary-light;
+    background: $color-accent-soft;
+    color: $color-accent;
+    border: 1px solid rgba($color-accent, 0.2);
   }
 }
+
+// -----------------------------
+// Spinner / Loading
+// -----------------------------
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: $radius-full;
+  animation: spin 0.7s linear infinite;
+  
+  &--sm {
+    width: 14px;
+    height: 14px;
+  }
+  
+  &--lg {
+    width: 28px;
+    height: 28px;
+    border-width: 3px;
+  }
+}
+
+// Skeleton loader
+.skeleton {
+  @include shimmer;
+  border-radius: $radius-md;
+  
+  &--text {
+    height: 16px;
+    width: 100%;
+  }
+  
+  &--title {
+    height: 24px;
+    width: 60%;
+  }
+  
+  &--card {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+// -----------------------------
+// Empty State
+// -----------------------------
+.empty-state {
+  @include flex-column;
+  @include flex-center;
+  padding: $spacing-12 $spacing-8;
+  text-align: center;
+  animation: fadeInUp 400ms ease both;
+  
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: $spacing-6;
+    color: $text-muted;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-2;
+  }
+  
+  &__description {
+    font-size: $font-size-sm;
+    color: $text-tertiary;
+    max-width: 300px;
+    margin-bottom: $spacing-6;
+  }
+}
+
+// -----------------------------
+// Divider
+// -----------------------------
+.divider {
+  height: 1px;
+  background: $border-subtle;
+  margin: $spacing-4 0;
+  
+  &--vertical {
+    width: 1px;
+    height: auto;
+    align-self: stretch;
+    margin: 0 $spacing-4;
+  }
+}
+
+// -----------------------------
+// Tooltip
+// -----------------------------
+.tooltip {
+  position: relative;
+  
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    padding: $spacing-2 $spacing-3;
+    background: $color-gray-900;
+    color: $text-inverse;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    white-space: nowrap;
+    border-radius: $radius-md;
+    opacity: 0;
+    visibility: hidden;
+    transition: $transition-fast;
+    pointer-events: none;
+    z-index: $z-tooltip;
+  }
+  
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+// -----------------------------
+// Utility Classes
+// -----------------------------
+.text-muted { color: $text-muted; }
+.text-secondary { color: $text-secondary; }
+.text-primary { color: $text-primary; }
+.text-accent { color: $color-accent; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.font-mono { font-family: $font-family-mono; }
+.font-medium { font-weight: $font-weight-medium; }
+.font-semibold { font-weight: $font-weight-semibold; }
+
+.sr-only { @extend .visually-hidden; }

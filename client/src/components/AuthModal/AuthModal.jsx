@@ -55,10 +55,14 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
   return (
     <div className="auth-modal__overlay" onClick={onClose}>
       <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="auth-modal__close" onClick={onClose}>✕</button>
+        <button className="auth-modal__close" onClick={onClose} aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
         
         <h2 className="auth-modal__title">
-          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+          {mode === 'login' ? 'Welcome back' : 'Create account'}
         </h2>
         
         <p className="auth-modal__subtitle">
@@ -79,7 +83,6 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
                 type="text"
                 id="name"
                 name="name"
-                className="input"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your name"
@@ -94,10 +97,9 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
               type="email"
               id="email"
               name="email"
-              className="input"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email"
+              placeholder="you@example.com"
               required
             />
           </div>
@@ -108,10 +110,9 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
               type="password"
               id="password"
               name="password"
-              className="input"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder="••••••••"
               minLength={6}
               required
             />
@@ -119,22 +120,22 @@ function AuthModal({ isOpen, onClose, onLogin, onRegister }) {
 
           <button 
             type="submit" 
-            className="btn--primary auth-modal__submit"
+            className="auth-modal__submit"
             disabled={loading}
           >
             {loading ? (
-              <><span className="spinner"></span> Loading...</>
+              <><span className="spinner"></span> Please wait...</>
             ) : (
-              mode === 'login' ? 'Sign In' : 'Create Account'
+              mode === 'login' ? 'Sign in' : 'Create account'
             )}
           </button>
         </form>
 
         <div className="auth-modal__switch">
           {mode === 'login' ? (
-            <>Don't have an account? <button onClick={switchMode}>Sign Up</button></>
+            <>Don't have an account? <button onClick={switchMode}>Sign up</button></>
           ) : (
-            <>Already have an account? <button onClick={switchMode}>Sign In</button></>
+            <>Already have an account? <button onClick={switchMode}>Sign in</button></>
           )}
         </div>
       </div>

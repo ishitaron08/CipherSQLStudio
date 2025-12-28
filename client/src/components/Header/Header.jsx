@@ -13,27 +13,28 @@ function Header() {
       <header className="header">
         <div className="header__container">
           <Link to="/" className="header__logo">
-            <svg className="header__logo-icon" viewBox="0 0 100 100" fill="none">
-              <rect width="100" height="100" rx="12" fill="#1a1a2e"/>
-              <ellipse cx="50" cy="35" rx="30" ry="12" stroke="#4a9eff" strokeWidth="4" fill="none"/>
-              <path d="M20 35 L20 65 Q20 77 50 77 Q80 77 80 65 L80 35" stroke="#4a9eff" strokeWidth="4" fill="none"/>
-              <ellipse cx="50" cy="65" rx="30" ry="12" stroke="#4a9eff" strokeWidth="4" fill="none"/>
-              <line x1="20" y1="50" x2="80" y2="50" stroke="#4a9eff" strokeWidth="4"/>
+            <svg className="header__logo-icon" viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="8" fill="#171717"/>
+              <path d="M10 14C10 12.8954 10.8954 12 12 12H28C29.1046 12 30 12.8954 30 14V26C30 27.1046 29.1046 28 28 28H12C10.8954 28 10 27.1046 10 26V14Z" stroke="#00d4ff" strokeWidth="1.5"/>
+              <path d="M10 18H30" stroke="#00d4ff" strokeWidth="1.5"/>
+              <circle cx="14" cy="15" r="1" fill="#00d4ff"/>
+              <circle cx="18" cy="15" r="1" fill="#00d4ff"/>
+              <path d="M14 22L16 24L20 20" stroke="#00d4ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <span className="header__logo-text">CipherSQLStudio</span>
+            <span className="header__logo-text">CipherSQL</span>
           </Link>
 
           <nav className="header__nav">
             {user ? (
               <div className="header__user">
                 <span className="header__username">{user.name}</span>
-                <button className="btn--ghost" onClick={logout}>
-                  Logout
+                <button className="header__logout-btn" onClick={logout}>
+                  Log out
                 </button>
               </div>
             ) : (
-              <button className="btn--secondary" onClick={() => setShowAuth(true)}>
-                Login
+              <button className="header__login-btn" onClick={() => setShowAuth(true)}>
+                Sign in
               </button>
             )}
           </nav>
