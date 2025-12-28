@@ -10,15 +10,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    padding: $space-4;
+    z-index: $z-modal;
+    padding: $spacing-4;
   }
 
   position: relative;
   background: $surface-primary;
-  border: 1px solid $border-primary;
+  border: 1px solid $border-default;
   border-radius: $radius-lg;
-  padding: $space-8;
+  padding: $spacing-8;
   width: 100%;
   max-width: 440px;
   max-height: 90vh;
@@ -26,15 +26,15 @@
 
   &__close {
     position: absolute;
-    top: $space-4;
-    right: $space-4;
+    top: $spacing-4;
+    right: $spacing-4;
     background: transparent;
     border: none;
     color: $text-tertiary;
     cursor: pointer;
-    padding: $space-2;
+    padding: $spacing-2;
     border-radius: $radius-sm;
-    transition: all $transition-fast;
+    transition: $transition-fast;
 
     &:hover {
       background: $surface-secondary;
@@ -43,14 +43,14 @@
   }
 
   &__title {
-    font-size: $text-xl;
-    font-weight: 600;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
     color: $text-primary;
-    margin-bottom: $space-6;
+    margin-bottom: $spacing-6;
   }
 
   &__section {
-    margin-bottom: $space-6;
+    margin-bottom: $spacing-6;
 
     &:last-child {
       margin-bottom: 0;
@@ -58,20 +58,20 @@
   }
 
   &__section-title {
-    font-size: $text-sm;
-    font-weight: 600;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
     color: $text-secondary;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: $space-4;
-    padding-bottom: $space-2;
-    border-bottom: 1px solid $border-primary;
+    letter-spacing: $letter-spacing-wide;
+    margin-bottom: $spacing-4;
+    padding-bottom: $spacing-2;
+    border-bottom: 1px solid $border-default;
   }
 
   &__info {
     display: flex;
     flex-direction: column;
-    gap: $space-3;
+    gap: $spacing-3;
   }
 
   &__info-row {
@@ -81,46 +81,46 @@
   }
 
   &__label {
-    font-size: $text-sm;
+    font-size: $font-size-sm;
     color: $text-tertiary;
   }
 
   &__value {
-    font-size: $text-sm;
+    font-size: $font-size-sm;
     color: $text-primary;
-    font-family: $font-mono;
+    font-family: $font-family-mono;
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: $space-4;
+    gap: $spacing-4;
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    gap: $space-2;
+    gap: $spacing-2;
 
     label {
-      font-size: $text-sm;
-      font-weight: 500;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
       color: $text-secondary;
     }
 
     input {
       background: $surface-secondary;
-      border: 1px solid $border-primary;
+      border: 1px solid $border-default;
       border-radius: $radius-md;
-      padding: $space-3 $space-4;
-      font-size: $text-base;
+      padding: $spacing-3 $spacing-4;
+      font-size: $font-size-base;
       color: $text-primary;
-      transition: all $transition-fast;
+      transition: $transition-fast;
 
       &:focus {
         outline: none;
-        border-color: $accent-primary;
-        box-shadow: 0 0 0 3px rgba($accent-primary, 0.1);
+        border-color: $color-accent;
+        box-shadow: 0 0 0 3px $color-accent-soft;
       }
 
       &::placeholder {
@@ -131,15 +131,15 @@
 
   &__submit {
     background: $text-primary;
-    color: $bg-primary;
+    color: $surface-primary;
     border: none;
     border-radius: $radius-md;
-    padding: $space-3 $space-6;
-    font-size: $text-sm;
-    font-weight: 600;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
     cursor: pointer;
-    transition: all $transition-fast;
-    margin-top: $space-2;
+    transition: $transition-fast;
+    margin-top: $spacing-2;
 
     &:hover:not(:disabled) {
       opacity: 0.9;
@@ -154,20 +154,20 @@
 }
 
 .message {
-  padding: $space-3 $space-4;
+  padding: $spacing-3 $spacing-4;
   border-radius: $radius-md;
-  font-size: $text-sm;
-  margin-bottom: $space-4;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-4;
 
   &--error {
-    background: rgba($status-error, 0.1);
-    border: 1px solid rgba($status-error, 0.3);
-    color: $status-error;
+    background: $color-error-soft;
+    border: 1px solid rgba($color-error, 0.3);
+    color: $color-error;
   }
 
   &--success {
-    background: rgba($status-success, 0.1);
-    border: 1px solid rgba($status-success, 0.3);
-    color: $status-success;
+    background: $color-success-soft;
+    border: 1px solid rgba($color-success, 0.3);
+    color: $color-success;
   }
 }
