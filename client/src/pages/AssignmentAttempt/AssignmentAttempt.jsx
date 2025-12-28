@@ -14,7 +14,7 @@ function AssignmentAttempt() {
   const [error, setError] = useState(null)
   
   // Editor state
-  const [query, setQuery] = useState('-- Write your SQL query here\nSELECT ')
+  const [query, setQuery] = useState('SELECT ')
   const [executing, setExecuting] = useState(false)
   const [results, setResults] = useState(null)
   const [queryError, setQueryError] = useState(null)
@@ -25,6 +25,9 @@ function AssignmentAttempt() {
   
   // Mobile panel state
   const [activePanel, setActivePanel] = useState('question')
+  
+  // Results panel state
+  const [isResultsExpanded, setIsResultsExpanded] = useState(false)
 
   useEffect(() => {
     fetchAssignment()
@@ -58,11 +61,14 @@ function AssignmentAttempt() {
       
       if (data.success) {
         setResults(data)
+        setIsResultsExpanded(true)
       } else {
         setQueryError(data.error)
+        setIsResultsExpanded(true)
       }
     } catch (err) {
       setQueryError('Failed to execute query')
+      setIsResultsExpanded(true)
     } finally {
       setExecuting(false)
     }
@@ -125,13 +131,7 @@ function AssignmentAttempt() {
           className={`assignment-attempt__tab ${activePanel === 'question' ? 'active' : ''}`}
           onClick={() => setActivePanel('question')}
         >
-          Question
-        </button>
-        <button 
-          className={`assignment-attempt__tab ${activePanel === 'schema' ? 'active' : ''}`}
-          onClick={() => setActivePanel('schema')}
-        >
-          Schema
+          Problem
         </button>
         <button 
           className={`assignment-attempt__tab ${activePanel === 'editor' ? 'active' : ''}`}
@@ -150,7 +150,7 @@ function AssignmentAttempt() {
       {/* Desktop Layout */}
       <div className="assignment-attempt__layout">
         {/* Left Column: Question & Schema */}
-        <div className={`assignment-attempt__left ${activePanel === 'question' || activePanel === 'schema' ? 'active' : ''}`}>
+        <div className={`assignment-attempt__left ${activePanel === 'question' ? 'active' : ''}`}>
           {/* Question Panel */}
           <div className={`assignment-attempt__panel question-panel ${activePanel === 'question' ? 'active' : ''}`}>
             <div className="panel__header">
@@ -178,19 +178,14 @@ function AssignmentAttempt() {
                   <p>{assignment.expectedResultDescription}</p>
                 </div>
               )}
-            </div>
-          </div>
 
-          {/* Schema Panel */}
-          <div className={`assignment-attempt__panel schema-panel ${activePanel === 'schema' ? 'active' : ''}`}>
-            <div className="panel__header">
-              <h2 className="panel__title">Tables & Schema</h2>
-            </div>
-            <div className="panel__content">
-              <SchemaViewer 
-                tables={assignment.tables} 
-                sampleData={assignment.sampleData}
-              />
+              <div className="question-panel__schema">
+                <h4 className="schema-title">Tables & Schema</h4>
+                <SchemaViewer 
+                  tables={assignment.tables} 
+                  sampleData={assignment.sampleData}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -251,9 +246,16 @@ function AssignmentAttempt() {
           </div>
 
           {/* Results Panel */}
-          <div className={`assignment-attempt__panel results-panel ${activePanel === 'results' ? 'active' : ''}`}>
-            <div className="panel__header">
-              <h2 className="panel__title">Results</h2>
+          <div className={`assignment-attempt__panel results-panel ${activePanel === 'results' ? 'active' : ''} ${isResultsExpanded ? 'expanded' : 'collapsed'}`}>
+            <div className="panel__header" onClick={() => setIsResultsExpanded(!isResultsExpanded)} style={{ cursor: 'pointer' }}>
+              <div className="panel__header-left">
+                <button className="results-toggle-btn">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: isResultsExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                <h2 className="panel__title">Results</h2>
+              </div>
               {results && (
                 <span className="results-panel__meta">
                   {results.rowCount} row{results.rowCount !== 1 ? 's' : ''} 
@@ -262,13 +264,15 @@ function AssignmentAttempt() {
                 </span>
               )}
             </div>
-            <div className="panel__content">
-              <ResultsTable 
-                results={results} 
-                error={queryError}
-                executing={executing}
-              />
-            </div>
+            {isResultsExpanded && (
+              <div className="panel__content">
+                <ResultsTable 
+                  results={results} 
+                  error={queryError}
+                  executing={executing}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -82,6 +82,11 @@
     @include desktop {
       flex-direction: row;
       gap: $spacing-5;
+      // Reduce horizontal margin by pulling content out
+      margin: 0 (-$spacing-4);
+      // Adjust vertical margin if needed, though height calc handles most
+      margin-top: -$spacing-4;
+      height: calc(100vh - $header-height - $spacing-4); // Adjust height calculation
     }
   }
   
@@ -99,8 +104,9 @@
     
     @include desktop {
       display: flex;
-      flex: 0 0 380px;
-      max-width: 420px;
+      // Increased width for problem statement (approx 45%)
+      flex: 0 0 45%;
+      max-width: none;
     }
   }
   
@@ -196,6 +202,7 @@
     background: $color-accent-soft;
     border-radius: $radius-md;
     border-left: 3px solid $color-accent;
+    margin-bottom: $spacing-6;
     
     h4 {
       font-size: $font-size-xs;
@@ -212,35 +219,38 @@
       line-height: $line-height-relaxed;
     }
   }
+
+  &__schema {
+    margin-top: $spacing-6;
+    padding-top: $spacing-6;
+    border-top: 1px solid $border-subtle;
+
+    .schema-title {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      margin-bottom: $spacing-4;
+      text-transform: uppercase;
+      letter-spacing: $letter-spacing-wider;
+    }
+  }
   
   .panel__content {
     padding: $spacing-5;
   }
 }
 
-// Schema Panel
-.schema-panel {
-  flex: 1;
-  min-height: 200px;
-  
-  @include desktop {
-    flex: 1;
-    max-height: none;
-  }
-  
-  .panel__content {
-    padding: $spacing-4;
-  }
-}
+// Schema Panel (Removed/Merged)
+// .schema-panel { ... }
 
 // Editor Panel
 .editor-panel {
-  flex: 1.2;
-  min-height: 280px;
+  flex: 1; // Takes remaining space when results collapsed
+  min-height: 300px;
   position: relative; // For hint panel positioning
+  transition: flex 0.3s ease;
   
   @include desktop {
-    flex: 1;
     min-height: 300px;
   }
   
@@ -285,12 +295,51 @@
 
 // Results Panel
 .results-panel {
-  flex: 0.8;
-  min-height: 200px;
+  flex: 0.8; // Default expanded size
+  min-height: 0;
+  transition: flex 0.3s ease, min-height 0.3s ease;
   
-  @include desktop {
-    flex: 0.7;
-    min-height: 180px;
+  &.collapsed {
+    flex: 0 0 auto;
+    min-height: 0;
+    
+    .panel__content {
+      display: none;
+    }
+    
+    .panel__header {
+      border-bottom: none;
+    }
+  }
+
+  &.expanded {
+    @include desktop {
+      flex: 0.8;
+      min-height: 200px;
+    }
+  }
+  
+  &__header-left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  .results-toggle-btn {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: $text-tertiary;
+    border-radius: $radius-sm;
+    transition: $transition-hover;
+
+    &:hover {
+      background: $color-gray-100;
+      color: $text-primary;
+    }
   }
   
   &__meta {

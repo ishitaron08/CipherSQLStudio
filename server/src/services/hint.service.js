@@ -13,7 +13,7 @@ const nim = createOpenAICompatible({
 class HintService {
   constructor() {
     // Use DeepSeek-R1 for reasoning-based hints
-    this.model = nim.chatModel('deepseek-ai/deepseek-r1');
+    this.model = nim.chatModel('moonshotai/kimi-k2-thinking');
   }
 
   /**
@@ -71,7 +71,7 @@ Please provide a helpful hint (NOT the solution) to guide the student.`;
 
       return {
         success: true,
-        hint: text.trim()
+        hint: text.trim(),
       };
     } catch (error) {
       console.error('Hint generation error:', error.message);

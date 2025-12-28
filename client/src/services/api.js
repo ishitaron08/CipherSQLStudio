@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE = 'https://cipher-sql-studio-api.onrender.com/api'
+const API_BASE = 'http://localhost:5000/api'
 
 // Create axios instance
 const api = axios.create({

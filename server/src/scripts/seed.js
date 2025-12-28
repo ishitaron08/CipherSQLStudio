@@ -152,6 +152,67 @@ const assignments = [
     expectedResultDescription: 'Only employees earning above the company average should be shown.',
     hintContext: 'A subquery is a query inside another query. Use (SELECT AVG(salary) FROM employees) in WHERE clause.',
     order: 5
+  },
+  {
+    title: 'LEFT JOIN - All Customers',
+    description: 'Write a query to list all customers and their orders, including customers who have not placed any orders.',
+    difficulty: 'medium',
+    category: 'JOIN',
+    tables: [
+      {
+        name: 'customers',
+        columns: [
+          { name: 'id', type: 'INTEGER', constraints: 'PRIMARY KEY' },
+          { name: 'name', type: 'VARCHAR(100)', constraints: 'NOT NULL' }
+        ]
+      },
+      {
+        name: 'orders',
+        columns: [
+          { name: 'id', type: 'INTEGER', constraints: 'PRIMARY KEY' },
+          { name: 'customer_id', type: 'INTEGER', constraints: 'FOREIGN KEY' },
+          { name: 'product', type: 'VARCHAR(100)', constraints: '' }
+        ]
+      }
+    ],
+    sampleData: {
+      customers: [
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Bob' }
+      ],
+      orders: [
+        { id: 1, customer_id: 1, product: 'Laptop' }
+      ]
+    },
+    expectedResultDescription: 'All customers should be listed. Bob should have NULL for order details.',
+    hintContext: 'LEFT JOIN returns all rows from the left table (customers), even if there are no matches in the right table (orders).',
+    order: 6
+  },
+  {
+    title: 'HAVING Clause - Department Size',
+    description: 'Write a query to find departments that have more than 1 employee.',
+    difficulty: 'medium',
+    category: 'GROUP BY',
+    tables: [
+      {
+        name: 'employees',
+        columns: [
+          { name: 'id', type: 'INTEGER', constraints: 'PRIMARY KEY' },
+          { name: 'first_name', type: 'VARCHAR(50)', constraints: 'NOT NULL' },
+          { name: 'department', type: 'VARCHAR(50)', constraints: '' }
+        ]
+      }
+    ],
+    sampleData: {
+      employees: [
+        { id: 1, first_name: 'John', department: 'Engineering' },
+        { id: 2, first_name: 'Jane', department: 'Marketing' },
+        { id: 3, first_name: 'Bob', department: 'Engineering' }
+      ]
+    },
+    expectedResultDescription: 'Only Engineering should be listed because it has 2 employees.',
+    hintContext: 'Use GROUP BY department and HAVING COUNT(*) > 1. WHERE filters rows, HAVING filters groups.',
+    order: 7
   }
 ];
 
@@ -206,15 +267,22 @@ async function seed() {
 
     // Seed customers
     console.log('Seeding customers...');
+    const createdCustomers = [];
     for (const customer of customers) {
-      await prisma.customer.create({ data: customer });
+      const created = await prisma.customer.create({ data: customer });
+      createdCustomers.push(created);
     }
     console.log(`  ✅ Created ${customers.length} customers`);
 
     // Seed orders
     console.log('Seeding orders...');
     for (const order of orders) {
-      await prisma.order.create({ data: order });
+      // Map 1-based ID from seed data to actual DB ID
+      const customerIndex = order.customerId - 1;
+      if (createdCustomers[customerIndex]) {
+        const newOrder = { ...order, customerId: createdCustomers[customerIndex].id };
+        await prisma.order.create({ data: newOrder });
+      }
     }
     console.log(`  ✅ Created ${orders.length} orders`);
 
