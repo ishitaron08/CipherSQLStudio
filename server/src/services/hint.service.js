@@ -13,7 +13,7 @@ const nim = createOpenAICompatible({
 class HintService {
   constructor() {
     // Use DeepSeek-R1 for reasoning-based hints
-    this.model = nim.chatModel('moonshotai/kimi-k2-thinking');
+    this.model = nim.chatModel('qwen/qwen3-next-80b-a3b-instruct');
   }
 
   /**
