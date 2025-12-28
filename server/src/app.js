@@ -21,7 +21,13 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || ['http://localhost:5173', 'http://localhost:5174', 'https://cipher-sql-studio-client.vercel.app'],
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:5174', 
+    'https://cipher-sql-studio-client.vercel.app',
+    'https://cipher-sql-studio-client-ishitaron08s-projects.vercel.app',
+    process.env.CLIENT_URL
+  ].filter(Boolean),
   credentials: true
 }));
 
