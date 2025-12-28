@@ -15,6 +15,9 @@ const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 
+// Trust proxy for Render/Vercel (required for rate limiting behind reverse proxy)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet());
 app.use(cors({
@@ -26,7 +29,9 @@ app.use(cors({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
-  message: { error: 'Too many requests, please try again later.' }
+  message: { error: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false
 });
 app.use('/api', limiter);
 
